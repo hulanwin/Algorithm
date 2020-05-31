@@ -1,0 +1,51 @@
+101. 对称二叉树
+给定一个二叉树，检查它是否是镜像对称的。
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
+
+    1
+   / \
+  2   2
+   \   \
+   3    3
+
+解题思路
+递归结束条件：
+都为空指针则返回 true
+只有一个为空则返回 false
+
+递归过程：
+判断两个指针当前节点值是否相等
+判断 A 的右子树与 B 的左子树是否对称
+判断 A 的左子树与 B 的右子树是否对称
+
+代码
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(!root) return true;
+
+        return __isSymmetric(root->left, root->right);
+    }
+    bool __isSymmetric(TreeNode* root1, TreeNode* root2){
+        bool flag1, flag2;
+        if(root1==nullptr){ // 两个子树都为空
+            if(root2!=nullptr) return false;
+            return true;
+        }
+        else if(root1!=nullptr){
+            if(root2==nullptr) return false;
+            // 两个子树都不为空
+            if(root1->val!=root2->val) return false;
+            flag1 = __isSymmetric(root1->left, root2->right);
+            flag2 = __isSymmetric(root1->right, root2->left);
+        }
+        return flag1&&flag2;
+    }
+};
