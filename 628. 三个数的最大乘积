@@ -1,0 +1,41 @@
+628. 三个数的最大乘积
+给定一个整型数组，在数组中找出由三个数组成的最大乘积，并输出这个乘积。
+
+示例 1:
+输入: [1,2,3]
+输出: 6
+
+示例 2:
+输入: [1,2,3,4]
+输出: 24
+
+注意:
+给定的整型数组长度范围是[3,104]，数组中所有的元素范围是[-1000, 1000]。
+输入的数组中任意三个数的乘积不会超出32位有符号整数的范围。
+
+
+#include <iostream>
+#include<cstring>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+int main( ){
+    int a[1000];
+    int n;
+    cout<<"please input number"<<endl;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+    }
+    sort(a,a+n);
+   for(int i=0;i<n;i++){
+      cout<<a[i]<<" ";
+    }
+ //  cout<<endl;
+    int max1=a[0]*a[1]*a[n-1];
+    //cout<<max1<<endl;
+    int max2=a[n-3]*a[n-2]*a[n-1];
+   // cout<<max2<<endl;
+    int res= max1>max2 ? max1 : max2;
+    cout<<res<<endl;
+}
