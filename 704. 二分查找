@@ -1,0 +1,75 @@
+704. 二分查找
+给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。
+
+示例 1:
+输入: nums = [-1,0,3,5,9,12], target = 9
+输出: 4
+解释: 9 出现在 nums 中并且下标为 4
+
+示例 2:
+输入: nums = [-1,0,3,5,9,12], target = 2
+输出: -1
+解释: 2 不存在 nums 中因此返回 -1
+
+提示：
+你可以假设 nums 中的所有元素是不重复的。
+n 将在 [1, 10000]之间。
+nums 的每个元素都将在 [-9999, 9999]之间。
+
+
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        sort(nums.begin(),nums.end());
+        int len=nums.size();
+        for(int i=0;i<len;i++){
+            if(target==nums[i]){
+                return i;
+            }
+            if(target!=nums[i] && i== len-1){
+                return -1;
+            }
+        }
+    return 0;
+    }
+};
+
+
+法二
+#include <iostream>
+#include<cstring>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+int main( ){
+    int a[1000];
+    int n,target;
+    cout<<"please input number"<<endl;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+    }
+    cout<<"plese input the target"<<endl;
+    cin>>target;
+    int low=0;
+    int high=n-1;
+   
+        while (low<=high)
+        {
+            int mid =low + (high -low )/2;
+            if(target==a[mid]){
+                cout<<mid<<endl;
+            }
+            if(target<a[mid]){
+                high=mid-1;
+            }
+            else
+            {
+                low=mid+1;
+            }
+            if(target!=a[mid]&& low == high){
+                 cout<<"-1"<<endl;
+            }
+        }  
+         
+}
