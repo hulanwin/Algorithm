@@ -1,0 +1,73 @@
+1010. 总持续时间可被 60 整除的歌曲
+在歌曲列表中，第 i 首歌曲的持续时间为 time[i] 秒。
+返回其总持续时间（以秒为单位）可被 60 整除的歌曲对的数量。形式上，我们希望索引的数字 i 和 j 满足  i < j 且有 (time[i] + time[j]) % 60 == 0。
+
+示例 1：
+输入：[30,20,150,100,40]
+输出：3
+解释：这三对的总持续时间可被 60 整数：
+(time[0] = 30, time[2] = 150): 总持续时间 180
+(time[1] = 20, time[3] = 100): 总持续时间 120
+(time[1] = 20, time[4] = 40): 总持续时间 60
+
+示例 2：
+输入：[60,60,60]
+输出：3
+解释：所有三对的总持续时间都是 120，可以被 60 整数。
+ 
+提示：
+1 <= time.length <= 60000
+1 <= time[i] <= 500
+
+#include<iostream>
+#include<vector>
+using namespace std;
+ 
+class Solution {
+public:
+    int numPairsDivisibleBy60(vector<int>& times){
+        int num=times.size();
+        int count =0;
+        for(int i=0;i<num;i++){
+            for(int j=i+1;j<num;j++){
+                if((times[i]+times[j])%60==0)
+                      count++;
+            }
+        }
+        return count;
+    }
+};
+ 
+ 
+int main(){
+    vector<int> times1 = { 30, 20, 150,100,40};
+    Solution* ps = new Solution();
+    cout << ps->numPairsDivisibleBy60(times1)<< endl;
+    vector<int> times2 = { 30, 20, 150,100,40};
+    Solution* ps1 = new Solution();
+    cout << ps1->numPairsDivisibleBy60(times2)<< endl;
+    return 0;
+}
+
+时间超限
+
+方法二
+创建长度为60的整型数组，统计时长对60取余结果为对应数组下标的歌曲数量
+统计好后，count[0]与count[30]内部消化，组数C(count[0],2)和C(count[30],2)
+其余组为count[k]与count[60-k]各任取一个，组数为count[k]*count[60-k]
+所有组数作和即可
+
+代码：
+class Solution {
+public:
+	int numPairsDivisibleBy60(vector<int>& time) {
+		int count[60] = { 0 };
+		int len = time.size();
+		for (int i = 0; i < len; i++)
+			count[time[i] % 60]++;
+		int ans = (count[0] * (count[0] - 1) + count[30] * (count[30] - 1)) >> 1;
+		for (int i = 1; i < 30; i++)
+			ans = ans + count[i] * count[60 - i];
+		return ans;
+	}
+};
