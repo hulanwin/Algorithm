@@ -1,0 +1,86 @@
+1185. 一周中的第几天
+给你一个日期，请你设计一个算法来判断它是对应一周中的哪一天。
+输入为三个整数：day、month 和 year，分别表示日、月、年。
+您返回的结果必须是这几个值中的一个 {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}。
+
+示例 1：
+输入：day = 31, month = 8, year = 2019
+输出："Saturday"
+
+示例 2：
+输入：day = 18, month = 7, year = 1999
+输出："Sunday"
+
+示例 3：
+输入：day = 15, month = 8, year = 1993
+输出："Sunday"
+ 
+提示：
+给出的日期一定是在 1971 到 2100 年之间的有效日期。
+
+#include<iostream>
+#include<vector>
+using namespace std;
+#include <unordered_map>
+
+class Solution {
+public:
+    bool isLeapYear(int year)
+    {
+        return year%4 == 0 && year%100 != 0 || year%400 == 0;
+    }
+    int countDays(int day, int month, int year)
+    {
+        int days;
+        // 不计算month前的天数和将每年都视为平年的总天数
+        days = (year - 1971) * 365 + day - 1;
+        // 多少闰年 1971 ~ year-1
+        for(int i = 1971; i < year; )
+        {
+            if(isLeapYear(i))
+            {
+                days++;
+                i += 4;
+            }
+            else
+            {
+                i++;
+            }
+        }
+        // year除去day零头的总天数
+        int m[12]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        if(isLeapYear(year))
+        {
+            m[1] = 29;
+        }
+        for(int i=0; i<month-1; i++)
+        {
+            days += m[i];
+            //cout << m[i] << " ";
+        }
+        return days;
+    }
+    string dayOfTheWeek(int day, int month, int year) {
+        string week[7]{"Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"};
+        int days = countDays(day, month, year);
+        return week[days%7];
+    }
+};
+ 
+ 
+int main(){
+    int day,month,year;
+    cout<<"please input the year"<<endl;
+    cin>>year;
+    cout<<"please input the month"<<endl;
+    cin>>month;
+    cout<<"please input the day"<<endl;
+    cin>>day;
+    Solution* ps = new Solution();
+    
+    cout << ps->isLeapYear(year)<< endl;
+    cout << ps->countDays(day,month,year)<< endl;
+    cout << ps->dayOfTheWeek(day,month,year)<< endl;
+
+    return 0;
+}

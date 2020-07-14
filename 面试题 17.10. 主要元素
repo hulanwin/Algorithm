@@ -1,0 +1,61 @@
+面试题 17.10. 主要元素
+数组中占比超过一半的元素称之为主要元素。给定一个整数数组，找到它的主要元素。若没有，返回-1。
+
+示例 1：
+输入：[1,2,5,9,5,9,5,5,5]
+输出：5
+ 
+示例 2：
+输入：[3,2]
+输出：-1
+ 
+示例 3：
+输入：[2,2,1,1,1,2,2]
+输出：2
+
+
+#include<iostream>
+#include<vector>
+using namespace std;
+#include <unordered_map>
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums){
+        int n=nums.size();
+        int temp=0;
+        int flag=0;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(nums[i]=nums[j]){
+                    temp++;
+                }
+                if(temp>n/2){
+                    flag=nums[i];
+                }
+                else
+                {
+                    flag=-1;
+                }
+                
+            }
+        } 
+        return flag;
+    }
+};
+ 
+ 
+int main(){
+    vector<int> arr={2,2,1,1,1,2,2};
+    Solution* ps = new Solution();
+    cout << ps->majorityElement(arr)<< endl;
+
+    vector<int> arr1={3,2};
+    Solution* ps1 = new Solution();
+    cout << ps1->majorityElement(arr1)<< endl;
+
+    vector<int> arr2={1,2,5,9,5,9,5,5,5};
+    Solution* ps2= new Solution();
+    cout << ps2->majorityElement(arr2)<< endl;
+    return 0;
+}
