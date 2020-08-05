@@ -1,0 +1,59 @@
+783. 二叉搜索树节点最小距离
+给定一个二叉搜索树的根节点 root，返回树中任意两节点的差的最小值。
+
+示例：
+输入: root = [4,2,6,1,3,null,null]
+输出: 1
+解释:
+注意，root是树节点对象(TreeNode object)，而不是数组。
+
+给定的树 [4,2,6,1,3,null,null] 可表示为下图:
+
+          4
+        /   \
+      2      6
+     / \    
+    1   3  
+
+最小的差值是 1, 它是节点1和节点2的差值, 也是节点3和节点2的差值。
+ 
+注意：
+二叉树的大小范围在 2 到 100。
+二叉树总是有效的，每个节点的值都是整数，且不重复。
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //二叉搜索树 中序遍历的结果是有序的
+ // 进行中序遍历 然后将前一个结果存下来 与当前结果对比 如果两个相减的绝对值小于min 则更改min
+class Solution {
+public:
+    int minDiffInBST(TreeNode* root) {
+        TreeNode *p=root->left?root->left:root->right;
+        int min=abs(root->val-p->val);//记录最小的差
+        int pre=0;//记录中序遍历的前一个的值
+        int flag=0;//为0时 还未遍历到第一个中序节点 为1时 pre已经有值
+        post_order(root,pre,min,flag);
+        return min;
+        
+    }
+    void post_order(TreeNode* root,int &pre,int &min,int& flag)
+    {
+        if(!root) return;
+        post_order(root->left,pre,min,flag);
+        if(flag==0){pre=root->val;flag=1;}
+        else
+        {
+            min=abs(pre-root->val)<min?abs(pre-root->val):min;
+            pre=root->val;
+        }
+        post_order(root->right,pre,min,flag);
+    }
+};
