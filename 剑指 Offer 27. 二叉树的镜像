@@ -1,0 +1,52 @@
+剑指 Offer 27. 二叉树的镜像
+请完成一个函数，输入一个二叉树，该函数输出它的镜像。
+
+例如输入：
+
+     4
+   /   \
+  2     7
+ / \   / \
+1   3 6   9
+镜像输出：
+
+     4
+   /   \
+  7     2
+ / \   / \
+9   6 3   1
+
+ 
+示例 1：
+输入：root = [4,2,7,1,3,6,9]
+输出：[4,7,2,9,6,3,1]
+
+
+1.边界条件判定
+2.找到第二层的左右节点进行交换
+3.如何存在左右节点，则先递归到左节点,然后递归右边的节点。
+4.重返上述步骤，直到遍历完二叉树所有的节点
+
+代码
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* mirrorTree(TreeNode* root) {
+        if(root==nullptr) return nullptr;//如果为空树，返回nullptr
+        if(root->left==nullptr&&root->right==nullptr) return root;//如果左右子树全空，返回
+        TreeNode* temp=root->left;//暂存左节点
+        root->left=root->right;//
+        root->right=temp;//完成（第二层）左右子树交换
+        if(root->left) mirrorTree(root->left);//递归
+        if(root->right)   mirrorTree(root->right);//递归
+        return root;
+    }
+};
