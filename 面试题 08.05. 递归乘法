@@ -1,0 +1,36 @@
+面试题 08.05. 递归乘法
+递归乘法。 写一个递归函数，不使用 * 运算符， 实现两个正整数的相乘。可以使用加号、减号、位移，但要吝啬一些。
+
+示例1:
+输入：A = 1, B = 10
+输出：10
+
+示例2:
+输入：A = 3, B = 4
+输出：12
+
+提示:
+保证乘法范围不会溢出
+
+
+
+class Solution {
+public:
+    int multiply(int A, int B) {
+        int ans = 0;
+        //1、给出递归结束条件，A，B的值等于0或者1时，可以结束递归过程；
+        if(A == 0 || B == 0) return 0;
+        if(A == 1) return B;
+        if(B == 1) return A;
+        //2、若A较大，则递归公式为：A * B = A * （B - 1）+ B；
+        if(A >= B){
+            ans = multiply(A, B - 1) + A;
+        }
+        //3、若B较大，则递归公式为：A * B = B * （A - 1）+ A；
+        else{
+            ans = multiply(A - 1, B) + B;
+        }
+        //返回最终结果
+        return ans;
+    }
+};
