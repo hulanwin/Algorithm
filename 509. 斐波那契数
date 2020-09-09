@@ -1,5 +1,6 @@
 509. 斐波那契数
 斐波那契数，通常用 F(n) 表示，形成的序列称为斐波那契数列。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是：
+
 F(0) = 0,   F(1) = 1
 F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
 给定 N，计算 F(N)。
@@ -24,23 +25,27 @@ F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
 
 class Solution {
 public:
-/*    int fib(int N) {                   //递归方法 16ms
-        if(N == 0 || N == 1){
-            return N;
+    int fib(int N) {
+    if (N == 1 || N == 2) return 1;
+    return fib(N - 1) + fib(N - 2);
+}
+};
+
+
+class Solution {
+public:
+    int fib(int N) {
+        if(N == 0) return 0;
+        if(N == 1) return 1;
+        int f = 0, fMinusOne = 1, fMinusTwo = 0;
+        while(N >= 2)
+        {
+            // 采取从下往上的方法，把计算过的中间项保存起来，避免重复计算导致递归调用栈溢出
+            f = fMinusOne + fMinusTwo;
+            fMinusTwo = fMinusOne;
+            fMinusOne = f;
+            N --;
         }
-        return fib(N-1) + fib(N-2);
-    }*/
-    int fib(int N) {                    // 动态规划 0ms
-        if(N == 1 || N == 0){
-            return N;
-        }
-        int dp0 = 0;
-        int dp1 = 1;
-        for(int i = 2; i <= N; i++){
-            int cur = dp0;
-            dp0 = dp1;
-            dp1 = dp0 + cur;
-        }
-        return dp1;
+        return f;
     }
 };
