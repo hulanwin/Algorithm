@@ -1,0 +1,56 @@
+剑指 Offer 25. 合并两个排序的链表
+输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。
+
+示例1：
+
+输入：1->2->4, 1->3->4
+输出：1->1->2->3->4->4
+限制：
+
+0 <= 链表长度 <= 1000
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(l1 == nullptr)  //l1为空，返回l2
+            return l2;
+        if(l2 == nullptr)  //l2为空，返回l1
+            return l1;
+        ListNode* p, *q;  //两个节点用来指向l1和l2
+        ListNode* temp;  
+        ListNode* root = new ListNode(0), *current = root;  //root为头节点，current为链表（逻辑上）最后一个元素
+        p = l1;
+        q = l2;
+        while(p && q)  //当有任意一个节点到达nullptr时，结束循环
+        {
+            //我们每次取p，q中较小的值插入root这个链表的末尾
+            if(p->val <= q->val)  //如果p小于等于q，就将current->next指向p
+            {
+                current->next = p;  //插入链表末尾
+                current = current->next;  //current移动至链表末尾
+                temp = p->next;  //先保存p->next
+                p->next = q;  //修改p->next的指向，将p插入q之前
+                p = temp;  //令p等于未修改之前的p->next
+                /*后三句可以改为p=p->next，这样在结束时需要将不为空的节点插入root链表的末尾*/
+            }
+            else  //如果p大于q，那就把q插入current->next指向q
+            {
+                current->next = q;
+                current = current->next;
+                temp = q->next;
+                q->next = p;
+                q = temp;
+            }
+        }
+        return root->next;  //返回节点
+    }
+};
