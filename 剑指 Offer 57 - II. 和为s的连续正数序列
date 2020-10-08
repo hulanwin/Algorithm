@@ -1,0 +1,36 @@
+剑指 Offer 57 - II. 和为s的连续正数序列
+输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+
+序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+
+示例 1：
+输入：target = 9
+输出：[[2,3,4],[4,5]]
+
+示例 2：
+输入：target = 15
+输出：[[1,2,3,4,5],[4,5,6],[7,8]]
+ 
+限制：
+1 <= target <= 10^5
+
+
+class Solution {
+public:
+	vector<vector<int>> findContinuousSequence(int target) {
+		vector <vector<int>> ans;
+		target *= 2;
+		for (int i = target / 2 - 1; i >= 2; i--) {
+			int s = target / i;
+			//三个判断分别对应了上面的三个条件
+			if (target % i == 0 && (i + s) % 2 == 1 && s - i > 0) {
+				vector<int> tmp;
+				int start = (s - i + 1) / 2, end = (s + i - 1) / 2;
+				for (int j = start; j <= end; j++)
+					tmp.push_back(j);
+				ans.push_back(tmp);
+			}
+		}
+		return ans;
+	}
+};
