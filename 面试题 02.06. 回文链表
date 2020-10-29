@@ -1,0 +1,45 @@
+面试题 02.06. 回文链表
+编写一个函数，检查输入的链表是否是回文的。
+
+示例 1：
+输入： 1->2
+输出： false 
+
+示例 2：
+输入： 1->2->2->1
+输出： true 
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        stack<int> temp;
+        ListNode*p=head;
+        bool res=true;
+        while(p!=nullptr)
+        {
+            temp.push(p->val);
+            p=p->next;
+        }
+        ListNode*q=head;
+        while(q!=nullptr)
+        {
+            if(q->val!=temp.top()) 
+                return false;
+            else
+            {
+                q=q->next;
+                temp.pop();
+            }
+        }
+        return res;
+    }
+};
