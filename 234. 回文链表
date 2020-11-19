@@ -2,47 +2,34 @@
 请判断一个链表是否为回文链表。
 
 示例 1:
-
 输入: 1->2
 输出: false
-示例 2:
 
+示例 2:
 输入: 1->2->2->1
 输出: true
 
-
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        if(!head||!head->next)return true;
-
-        //使用快慢指针法找到链表中点，慢指针为中间节点，奇偶不影响
-        ListNode* slow=head;
-        ListNode* fast=head;
-        while(fast&&fast->next){
-            fast=fast->next->next;
-            slow=slow->next;
+        vector<int> vec;
+        ListNode* cur  = head;
+        while (cur) {
+            vec.push_back(cur->val);
+            cur = cur->next;
         }
-
-        //使用不带头节点的方式头插，反转链表
-        ListNode* reserved=NULL;
-        while (slow){
-            //暂存下一个位置的指针
-            ListNode* tmp=slow->next;
-            //头插法
-            slow->next=reserved;
-            reserved=slow;
-            //恢复指向下一个
-            slow=tmp;
-        }
-        //比较两个链表
-        while(head&&reserved){
-            if(head->val!=reserved->val)
-                return false;
-            head=head->next;
-            reserved=reserved->next;    
+        // 比较数组回文
+        for (int i = 0, j = vec.size() - 1; i < j; i++, j--) {
+            if (vec[i] != vec[j]) return false;
         }
         return true;
     }
-    
 };
